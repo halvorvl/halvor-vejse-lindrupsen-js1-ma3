@@ -4,22 +4,28 @@ const apiUrl =
 const createHtmlHere = document.querySelector(".results");
 
 async function getGames() {
-  const response = await fetch(apiUrl);
+  try {
+    const response = await fetch(apiUrl);
 
-  const result = await response.json();
+    const result = await response.json();
 
-  const games = result.results;
+    const games = result.results;
 
-  createHtmlHere.innerHTML = "";
+    createHtmlHere.innerHTML = "";
 
-  for (let i = 0; i < games.length; i++) {
-    {
-      if (i === 8) break;
+    for (let i = 0; i < games.length; i++) {
+      {
+        if (i === 8) break;
+      }
+
+      createHtmlHere.innerHTML += `<div class="results"> Name: ${games[i].name}
+ Rating: ${games[i].rating}
+ Number of tags: ${games[i].tags.length} </div>`;
     }
-
-    createHtmlHere.innerHTML += `<div class="results"> Name: ${games[i].name}
-     Rating: ${games[i].rating}
-     Number of tags: ${games[i].tags.length} </div>`;
+  } catch (err) {
+    createHtmlHere.innerHTML = errorMessage(
+      "An error occured when making the API call"
+    );
   }
 }
 
